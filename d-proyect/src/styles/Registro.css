@@ -1,0 +1,87 @@
+.registro-page {
+  padding: 60px 0;
+  background: linear-gradient(to bottom, var(--bg-light), white);
+}
+
+.registro-card {
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.password-strength {
+  margin-top: 12px;
+}
+
+.strength-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.strength-fill {
+  height: 100%;
+  transition: width 0.3s, background-color 0.3s;
+}
+
+.strength-weak .strength-fill {
+  background: #dc3545;
+}
+
+.strength-medium .strength-fill {
+  background: #ffc107;
+}
+
+.strength-strong .strength-fill {
+  background: #28a745;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.success-message {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+}
+
+.success-message h3 {
+  color: #155724;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.success-message p {
+  color: #155724;
+  font-size: 16px;
+}
+
+@media (max-width: 576px) {
+  .registro-card {
+    margin: 0 16px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-half {
+    width: 100% !important;
+  }
+}
