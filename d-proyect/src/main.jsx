@@ -15,6 +15,8 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import './styles/Styles.css'
 import './styles/Login.css'
 import './styles/Registro.css'
+import Franquicias from './Pages/Franquicias.jsx'
+
 
 localStorage.setItem('usuario', 'francis.oses@duocuc.cl');
 
@@ -31,6 +33,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/Registro" element={<Registro />} />
         <Route path="/Navbar" element={<Navbar />} />
         <Route path="/Footer" element={<Footer />} />
+        <Route path="/franquicias" element={<Franquicias />} />
       </Routes>
       <Footer />
     </HashRouter>
