@@ -6,8 +6,7 @@ const navLinks = [
   { href: "/franquicias", label: "Franquicias" },
   { href: "#", label: "Novedades" },
   { href: "/donde-estamos", label: "Dónde Estamos" },
-  { href: "#", label: "Contacto" },
-
+  { href: "/contacto", label: "Contacto" },
 ]
 
 export default function Navbar() {
@@ -31,7 +30,7 @@ export default function Navbar() {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Menú lateral (offcanvas) */}
+          {/* Menú lateral */}
           <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasMenu">
             <div className="offcanvas-header">
               <h5 className="offcanvas-title">Menú</h5>
