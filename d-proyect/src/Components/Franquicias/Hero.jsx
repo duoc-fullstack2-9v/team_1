@@ -5,7 +5,7 @@ export default function Franquicia() {
     <section className="franquicia-section">
       {/* Sección Hero */}
       <div className="franquicia-hero">
-        <h1 className="titulo-franquicia">¡Únete a Helados Dooc!</h1>
+        <h1 className="titulo-franquicia"> Bienvenidos a Nuestra Franquicia </h1>
         <p className="subtexto-franquicia">
           Descubre cómo abrir tu propia franquicia y ser parte de nuestra familia.
         </p>
@@ -23,7 +23,7 @@ export default function Franquicia() {
 
             <div className="franquicia-texto">
               <h2 className="titulo-text-franquicia">
-                Bienvenidos a <span className="text-dooc">Nuestra Franquicia</span>
+                ¡Únete a  <span className="text-dooc">Helados Dooc!</span>
               </h2>
               <p>
                 Tú también puedes ser parte de la familia Helados Dooc. Comienza tu propio negocio con el apoyo de una gran marca.
