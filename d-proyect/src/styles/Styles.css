@@ -32,7 +32,7 @@ body {
 }
 
 .container-fluid {
-  width: 100%;
+  width: 100vw;
   padding: 0 20px;
 }
 
@@ -652,7 +652,6 @@ body {
   height: 40px;
   border-radius: 50%;
   background: #ffe6f0; /* fondo rosado clarito */
-  transition: background 0.3s, transform 0.3s;
 }
 
 .social-link i {
@@ -669,4 +668,13 @@ body {
 .about-list li::before {
   display: none !important;
 }
+
+.text-rose-600 { color: #e63946; }
+.text-rose-700 { color: #c1121f; }
+.bg-rose-100 { background-color: #ffe5e0; }
+.bg-rose-50 { background-color: #fff0ef; }
+.btn-rose { background-color: #e63946; border: none; }
+.btn-rose:hover { background-color: #c1121f; }
+
+
 

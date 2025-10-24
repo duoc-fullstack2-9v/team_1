@@ -3,10 +3,11 @@ import { NavLink } from "react-router-dom"
 const navLinks = [
   { href: "/", label: "Helados Dooc" },
   { href: "/productos", label: "Productos" },
-  { href: "#", label: "Franquicias" },
+  { href: "/franquicias", label: "Franquicias" },
   { href: "#", label: "Novedades" },
   { href: "/donde-estamos", label: "Dónde Estamos" },
   { href: "#", label: "Contacto" },
+
 ]
 
 export default function Navbar() {

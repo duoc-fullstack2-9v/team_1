@@ -50,7 +50,7 @@ const allProducts = [
     name: "Menta Chocolate",
     description: "Refrescante menta con chips de chocolate oscuro.",
     image:
-      "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "chocolate_menta.avif",
     badge: "Popular",
     category: "chocolate",
   },

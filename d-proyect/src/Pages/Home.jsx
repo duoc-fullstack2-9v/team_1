@@ -34,7 +34,7 @@ const testimonials = [
     name: "María González",
     role: "Cliente frecuente",
     rating: 5,
-    comment: "Los mejores helados de Iquique. El sabor a chocolate es increíble, y el servicio siempre es amable.",
+    comment: " Los mejores helados de Iquique. El sabor a chocolate es increíble, y el servicio siempre es amable.",
   },
   {
     id: 2,
@@ -198,15 +198,15 @@ export default function Home() {
               <h4 className="location-title">Helados Dooc Iquique</h4>
               <p className="location-item">
                 <i className="bi bi-geo-alt-fill text-dooc"></i>
-                <strong>📌  Dirección:</strong> Los Jazmines 1815, Casa 1, Iquique
+                <strong>  Dirección:</strong> Los Jazmines 1815, Casa 1, Iquique
               </p>
               <p className="location-item">
                 <i className="bi bi-telephone-fill text-dooc"></i>
-                <strong>☎︎  Teléfono:</strong> +56 9 7654 3210
+                <strong>  Teléfono:</strong> +56 9 7654 3210
               </p>
               <p className="location-item">
                 <i className="bi bi-envelope-fill text-dooc"></i>
-                <strong>✉️ Email:</strong> info@heladosdooc.cl
+                <strong> Email:</strong> info@heladosdooc.cl
               </p>
               <div className="location-hours">
                 <h5 className="hours-title">Horario de atención</h5>
