@@ -1,0 +1,130 @@
+/* Fondo rosado suave a blanco */
+.franquicia-section {
+  width: 100%;
+  margin: 0;
+  background: linear-gradient(#ff6b6b);
+  overflow-x: hidden;
+}
+
+/* Sección principal */
+.franquicia-hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.titulo-franquicia {
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2.8rem;
+}
+
+.subtexto-franquicia {
+  color: black;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.imagen-franquicia {
+  max-width: 700px;
+  width: 90%;
+  height: auto;
+  margin-top: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Bloque inferior: Bienvenida */
+.franquicia-bienvenida {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff5f5;
+  width: 100%;
+  margin: 0;
+}
+
+.titulo-bienvenida {
+  color: #ff6b6b;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+
+.texto-bienvenida {
+  color: #ff6b6b;
+  max-width: 600px;
+  margin: 20px auto 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.franquicia-content {
+  display: flex;
+  align-items: center;  /* centra verticalmente el texto con la imagen */
+  justify-content: center;
+  gap: 40px;            /* espacio entre imagen y texto */
+  flex-wrap: wrap;      /* permite que se acomode en móvil */
+  margin-top: 40px;
+}
+
+.franquicia-imagen img {
+  width: 100%;
+  max-width: 500px;      /* limita ancho de la imagen */
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.franquicia-texto {
+  max-width: 500px;      /* ancho máximo del texto */
+  text-align: left;
+}
+.franquicia-blanco {
+  background-color:#fff5f5;   /* fondo blanco */
+  padding: 50px 20px;
+  margin: 40px auto;
+  border-radius: 20px;
+  max-width: 1200px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.franquicia-content {
+  display: flex;
+  align-items: center;        /* centra verticalmente */
+  gap: 40px;                  /* espacio entre imagen y texto */
+  flex-wrap: wrap;            /* móvil: imagen arriba, texto abajo */
+}
+
+.franquicia-imagen img {
+  width: 100%;
+  max-width: 100vh;
+  border-radius: 20px;
+}
+
+.franquicia-texto {
+  max-width: 500px;
+  text-align: left;
+}
+
+.franquicia-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.franquicia-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.franquicia-list i {
+  color: #ff4f75;  /* color del check */
+}
+
+.franquicia-icon {
+  color: #ff6b6b; /* color Helados Dooc , cambio para iconos de franquicia*/
+  font-size: 2.5rem; /* tamaño grande, opcional */
+}
+
