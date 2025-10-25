@@ -63,7 +63,14 @@
   align-items: center;
 }
 
+.flavor-img-container {
+  position: relative; 
+}
+
 .flavor-badge {
+  position: absolute; 
+  top: 10px;         
+  left: 10px;         
   display: inline-block;
   background-color: #ff6b6b;
   color: white;
@@ -71,7 +78,8 @@
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 0.8rem;
-  margin-bottom: 8px;
+  z-index: 10;        
+  margin-bottom: 0;  
 }
 
 .flavor-name {
@@ -88,7 +96,7 @@
   min-height: 40px;
 }
 
-/* 💰 PRECIOS - justo debajo de la descripción */
+/* precios ,justo debajo de la descripción */
 .flavor-prices {
   display: flex;
   justify-content: center;
