@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 
 const navLinks = [
   { href: "/", label: "Helados Dooc" },
@@ -7,7 +7,7 @@ const navLinks = [
   { href: "#", label: "Novedades" },
   { href: "/donde-estamos", label: "Dónde Estamos" },
   { href: "/contacto", label: "Contacto" },
-]
+];
 
 export default function Navbar() {
   return (
@@ -31,19 +31,32 @@ export default function Navbar() {
           </button>
 
           {/* Menú lateral */}
-          <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasMenu">
+          <div
+            className="offcanvas offcanvas-end"
+            tabIndex="-1"
+            id="offcanvasMenu"
+          >
             <div className="offcanvas-header">
               <h5 className="offcanvas-title">Menú</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="offcanvas"
+              ></button>
             </div>
+
             <div className="offcanvas-body">
               <ul className="navbar-nav flex-grow-1 mb-3">
                 {navLinks.map((link, i) => (
                   <li className="nav-item" key={i}>
                     {link.href.startsWith("/") ? (
-                      <NavLink className="nav-link" to={link.href}>{link.label}</NavLink>
+                      <NavLink className="nav-link" to={link.href}>
+                        {link.label}
+                      </NavLink>
                     ) : (
-                      <a className="nav-link" href={link.href}>{link.label}</a>
+                      <a className="nav-link" href={link.href}>
+                        {link.label}
+                      </a>
                     )}
                   </li>
                 ))}
@@ -51,19 +64,44 @@ export default function Navbar() {
 
               <hr />
 
-              {/* Iconos de login y redes */}
-              <div className="d-flex gap-3">
-                <NavLink to="/login" className="social-link">
-                  <i className="bi bi-box-arrow-in-right"></i>
+              {/* Iconos de login, redes y carrito */}
+              <div className="d-flex gap-3 align-items-center">
+                {/* Login */}
+                <NavLink to="/login" className="social-link text-dark">
+                  <i className="bi bi-box-arrow-in-right fs-4"></i>
                 </NavLink>
-                <a href="#" className="social-link">
-                  <i className="bi bi-facebook"></i>
+
+                {/* Redes sociales */}
+                <a
+                  href="https://www.facebook.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link text-dark"
+                >
+                  <i className="bi bi-facebook fs-4"></i>
                 </a>
-                <a href="#" className="social-link">
-                  <i className="bi bi-instagram"></i>
+
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link text-dark"
+                >
+                  <i className="bi bi-instagram fs-4"></i>
                 </a>
-                <a href="#" className="social-link">
-                  <i className="bi bi-tiktok"></i>
+
+                <a
+                  href="https://www.tiktok.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link text-dark"
+                >
+                  <i className="bi bi-tiktok fs-4"></i>
+                </a>
+
+                {/* Carrito */}
+                <a href="/productos" className="social-link text-dark">
+                  <i className="bi bi-cart4 fs-4"></i>
                 </a>
               </div>
             </div>
@@ -71,5 +109,5 @@ export default function Navbar() {
         </div>
       </nav>
     </header>
-  )
+  );
 }
