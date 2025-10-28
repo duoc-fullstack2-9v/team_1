@@ -5,7 +5,7 @@
 }
 
 :root {
-  --primary-color: #ff6b6b;
+  --primary-color: #d24d4d;
   --secondary-color: #ff9e6b;
   --accent-color: #6b5ce7;
   --text-dark: #333;
@@ -246,6 +246,15 @@ body {
   gap: 16px;
 }
 
+.footer .bi-cart4 {
+  transition: transform 0.2s;
+}
+
+.footer .bi-cart4:hover {
+  transform: scale(1.1);
+  color: #e57c73;
+}
+
 .social-link {
   color: white;
   font-size: 24px;
@@ -256,6 +265,7 @@ body {
 .social-link:hover {
   color: var(--primary-color);
 }
+
 
 .newsletter-form {
   display: flex;

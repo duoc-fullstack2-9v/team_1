@@ -1,0 +1,57 @@
+.navbar {
+  background-color: #fff !important;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar .nav-link {
+  color: #333 !important;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+  color: #ff6b6b !important;
+}
+
+.navbar .social-link {
+  transition: transform 0.2s ease;
+}
+
+.navbar .social-link:hover {
+  transform: scale(1.1);
+  color: #ff6b6b !important;
+}
+
+/* --- Carrito con mismo estilo que iconos sociales --- */
+.btn-carrito {
+  background: #ffe6f1; /* fondo rosado clarito */
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease ;
+}
+
+.btn-carrito i {
+  color: #ff6b6b; /* ícono rosado */
+  font-size: 20px;
+}
+
+.btn-carrito:hover {
+  background: #ff9e6b; /* rosado más intenso */
+  transform: scale(1.1);
+}
+
+/* contador del carrito */
+.btn-carrito .badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: #ff6b6b;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+}

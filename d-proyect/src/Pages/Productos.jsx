@@ -1,14 +1,15 @@
 import { useState } from "react";
-import FlavorCard from "../Components/FlavorCard";
+import { useCart } from "../Context/CartContext";
+import Carrito from "../Components/Carrito.jsx";
 import "../styles/FlavorCard.css";
+import "../styles/Carrito.css";
 
 const allProducts = [
   {
     id: 1,
     name: "Chocolate Dooc",
     description: "Nuestro chocolate belga premium con trozos de chocolate semi-amargo.",
-    image:
-      "https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     badge: "Sale",
     oldPrice: 8000,
     price: 6000,
@@ -46,7 +47,6 @@ const allProducts = [
     name: "Vainilla Premium",
     description: "Vainilla de Madagascar con semillas naturales.",
     image: "vain.webp",
-    badge: "Clásico",
     price: 5500,
     category: "vainilla",
   },
@@ -54,8 +54,7 @@ const allProducts = [
     id: 6,
     name: "Menta Chocolate",
     description: "Refrescante menta con chips de chocolate oscuro.",
-    image: "chocmenta.jpg",
-    badge: "Popular",
+    image: "mentachoc.webp",
     price: 4800,
     category: "chocolate",
   },
@@ -63,14 +62,14 @@ const allProducts = [
     id: 7,
     name: "Pistacho",
     description: "Cremoso, suave y con el sabor único del pistacho natural.",
-    image: "pistacho.jpg",
+    image: "pistacho1.jpg",
     badge: "Popular",
     price: 6500,
     category: "pistacho",
   },
   {
     id: 8,
-    name: "Sandia",
+    name: "Sandía",
     description: "Dulce, refrescante y lleno de color.",
     image: "sandia.jpg",
     badge: "Sale",
@@ -78,46 +77,111 @@ const allProducts = [
     price: 5800,
     category: "frutas",
   },
+  {
+    id: 9,
+    name: "Cookies & Cream",
+    description: "Suave, dulce y lleno de galletas.",
+    image: "galleta.jpg",
+    price: 5800,
+    category: "galleta",
+  },
+  {
+    id: 10,
+    name: "Frambuesa Dream",
+    description: "Cada cucharada, una sensación única.",
+    image: "dream.jpg",
+    price: 4500,
+    category: "frutas",
+  },
+  {
+    id: 11,
+    name: "Pasas al Ron",
+    description: "Tradición y sabor en cada bocado con aroma a ron.",
+    image: "pasas.webp",
+    badge: "Clásico",
+    price: 6000,
+    category: "ron",
+  },
+  {
+    id: 12,
+    name: "Cookies Monster",
+    description: "El clásico sabor de galleta en su versión más monstruosa.",
+    image: "moster.jpeg",
+    badge: "Nuevo",
+    price: 6500,
+    category: "galletas",
+  },
 ];
 
 export default function Productos() {
   const [products] = useState(allProducts);
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchTerm, setSearchTerm] = useState("");
+  const { cartItems, addToCart } = useCart(); // ✅ usamos el contexto correcto
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // 🔍 Filtra productos según el nombre
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleAddToCart = (producto) => {
+    addToCart(producto); // usa la función del contexto
+    setIsCartOpen(true);
+  };
+
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <section className="productos-page">
-      <h2 className="productos-title">Nuestros Productos</h2>
+    <>
+      {isCartOpen && (
+        <Carrito
+          cart={cartItems}
+          onClose={() => setIsCartOpen(false)}
+        />
+      )}
 
-<input
-  type="text"
-  placeholder="Buscar producto..."
-  className="buscador"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-/>
+      <div className="productos-page">
+        <h2 className="productos-title">Nuestros Productos</h2>
 
-      <div className="productos-grid">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <FlavorCard
-              key={product.id}
-              name={product.name}
-              description={product.description}
-              image={product.image}
-              badge={product.badge}
-              oldPrice={product.oldPrice}
-              price={product.price}
-            />
-          ))
-        ) : (
-          <p className="sin-resultados">No se encontraron productos </p>
-        )}
+        <div className="productos-header">
+          <input
+            type="text"
+            placeholder="Buscar producto..."
+            className="buscador"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="productos-grid">
+          {filteredProducts.map((p) => (
+            <div key={p.id} className="producto-card flavor-card">
+              <div className="flavor-img-container">
+                <img src={p.image} alt={p.name} className="flavor-image" />
+                {p.badge && <span className="flavor-badge">{p.badge}</span>}
+              </div>
+
+              <div className="flavor-content">
+                <h5 className="flavor-name">{p.name}</h5>
+                <p className="flavor-description">{p.description}</p>
+                <div className="flavor-prices">
+                  {p.oldPrice && (
+                    <span className="old-price">
+                      ${p.oldPrice.toLocaleString()}
+                    </span>
+                  )}
+                  <span className="new-price">
+                    ${p.price.toLocaleString()}
+                  </span>
+                </div>
+                <button
+                  className="add-to-cart-bottom"
+                  onClick={() => handleAddToCart(p)}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
+    </>
   );
 }

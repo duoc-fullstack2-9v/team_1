@@ -1,4 +1,8 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Carrito from "../Components/Carrito";
+import { useCart } from "../Context/CartContext"; 
+import "../styles/Navbar.css";
 
 const navLinks = [
   { href: "/", label: "Helados Dooc" },
@@ -10,16 +14,22 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const { cartItems } = useCart(); // corregido: antes decía "cart"
+
+  const toggleCarrito = () => setMostrarCarrito(!mostrarCarrito);
+
+  // protegemos con "?.reduce" para evitar error si cartItems está vacío
+  const totalItems = cartItems?.reduce((acc, item) => acc + item.cantidad, 0) || 0;
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div className="container-fluid">
-          {/* Logo */}
           <NavLink className="navbar-brand" to="/">
             <img src="/logo.jpg" alt="Logo" width="60" />
           </NavLink>
 
-          {/* Botón hamburguesa */}
           <button
             className="navbar-toggler"
             type="button"
@@ -30,19 +40,10 @@ export default function Navbar() {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Menú lateral */}
-          <div
-            className="offcanvas offcanvas-end"
-            tabIndex="-1"
-            id="offcanvasMenu"
-          >
+          <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasMenu">
             <div className="offcanvas-header">
               <h5 className="offcanvas-title">Menú</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="offcanvas"
-              ></button>
+              <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
             </div>
 
             <div className="offcanvas-body">
@@ -54,9 +55,7 @@ export default function Navbar() {
                         {link.label}
                       </NavLink>
                     ) : (
-                      <a className="nav-link" href={link.href}>
-                        {link.label}
-                      </a>
+                      <a className="nav-link" href={link.href}>{link.label}</a>
                     )}
                   </li>
                 ))}
@@ -64,50 +63,36 @@ export default function Navbar() {
 
               <hr />
 
-              {/* Iconos de login, redes y carrito */}
               <div className="d-flex gap-3 align-items-center">
-                {/* Login */}
                 <NavLink to="/login" className="social-link text-dark">
                   <i className="bi bi-box-arrow-in-right fs-4"></i>
                 </NavLink>
-
-                {/* Redes sociales */}
-                <a
-                  href="https://www.facebook.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link text-dark"
-                >
+                <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="social-link text-dark">
                   <i className="bi bi-facebook fs-4"></i>
                 </a>
-
-                <a
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link text-dark"
-                >
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="social-link text-dark">
                   <i className="bi bi-instagram fs-4"></i>
                 </a>
-
-                <a
-                  href="https://www.tiktok.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link text-dark"
-                >
+                <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" className="social-link text-dark">
                   <i className="bi bi-tiktok fs-4"></i>
                 </a>
 
-                {/* Carrito */}
-                <a href="/productos" className="social-link text-dark">
+                {/* Botón Carrito */}
+                <button
+                  data-testid="btn-carrito"
+                  onClick={toggleCarrito}
+                  className="social-link btn-carrito position-relative"
+                >
                   <i className="bi bi-cart4 fs-4"></i>
-                </a>
+                  {totalItems > 0 && <span className="badge rounded-pill">{totalItems}</span>}
+                </button>
               </div>
             </div>
           </div>
         </div>
       </nav>
+
+      {mostrarCarrito && <Carrito onClose={() => setMostrarCarrito(false)} />}
     </header>
   );
 }

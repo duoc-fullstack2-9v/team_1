@@ -1,168 +1,133 @@
-import React, { useState } from "react";
-import { createPortal } from "react-dom";
-import "../styles/Carrito.css";
+import { useState } from "react";
 import { useCart } from "../Context/CartContext";
+import "../styles/Carrito.css";
 
 export default function Carrito({ onClose }) {
-  const { cart, setCart } = useCart();
+  const { cartItems, removeFromCart, updateCartItem, clearCart } = useCart();
   const [productoEditando, setProductoEditando] = useState(null);
-  const [notaTemp, setNotaTemp] = useState("");
-  const [cantidadTemp, setCantidadTemp] = useState(1);
-  const [compraRealizada, setCompraRealizada] = useState(false); 
+  const [cantidad, setCantidad] = useState(1);
+  const [instrucciones, setInstrucciones] = useState("");
+  const [mensajeExito, setMensajeExito] = useState(false);
 
-  if (!cart) return null;
-
-  const eliminar = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+  const handleEditar = (producto) => {
+    setProductoEditando(producto);
+    setCantidad(producto.cantidad);
+    setInstrucciones(producto.instrucciones || "");
   };
 
-  const cambiarCantidad = (id, delta) => {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.id === id
-            ? { ...item, cantidad: Math.max(1, item.cantidad + delta) }
-            : item
-        )
-        .filter((item) => item.cantidad > 0)
-    );
-  };
-
-  const vaciarCarrito = () => {
-    setCart([]);
-    onClose?.();
-  };
-
-  const eliminarDesdeModal = (id) => {
-    eliminar(id);
+  const handleGuardarCambios = () => {
+    if (!productoEditando) return;
+    updateCartItem(productoEditando.id, productoEditando.sabor, {
+      cantidad,
+      instrucciones,
+    });
     setProductoEditando(null);
+    setMensajeExito(true);
+    setTimeout(() => setMensajeExito(false), 2000);
   };
 
-  const total = cart.reduce(
-    (acc, item) => acc + (item.price || 0) * (item.cantidad || 0),
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.precio * item.cantidad,
     0
   );
 
-  const onOverlayClick = (e) => {
-    if (e.target.classList.contains("carrito-overlay")) onClose?.();
-  };
-
-  const abrirModal = (item) => {
-    setProductoEditando(item);
-    setNotaTemp(item.nota || "");
-    setCantidadTemp(item.cantidad || 1);
-  };
-
-  const guardarEdicion = () => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === productoEditando.id
-          ? { ...item, nota: notaTemp, cantidad: cantidadTemp }
-          : item
-      )
-    );
-    setProductoEditando(null);
-  };
-
-  // función para finalizar compra
-  const finalizarCompra = () => {
-    setCompraRealizada(true);
-    setCart([]);
-
-    // Oculta el mensaje y cierra el carrito después de unos segundos
-    setTimeout(() => {
-      setCompraRealizada(false);
-      onClose?.();
-    }, 2500);
-  };
-
-  const contenido = (
-    <div className="carrito-overlay" onClick={onOverlayClick}>
-      <div className="carrito" role="dialog" aria-modal="true">
-        <button
-          className="btn-cerrar"
-          onClick={onClose}
-          aria-label="Cerrar carrito"
-        >
+  return (
+    <div
+      className="carrito-overlay"
+      onClick={(e) => {
+        if (e.target.classList.contains("carrito-overlay")) onClose?.();
+      }}
+    >
+      <div className="carrito">
+        <button className="btn-cerrar" onClick={onClose}>
           ×
         </button>
-        <h4>Tu pedido</h4>
+        <h4>Tu Carrito</h4>
 
-        {/* ensaje de compra realizada */}
-        {compraRealizada && (
-          <div className="mensaje-exito">
-            ¡Compra realizada con éxito! 🎉
-          </div>
-        )}
-
-        {cart.length === 0 && !compraRealizada ? (
-          <p className="text-center mt-3">Tu carrito está vacío 🛍️</p>
+        {cartItems.length === 0 ? (
+          <p style={{ textAlign: "center", marginTop: "2rem" }}>
+            Tu carrito está vacío 🍦
+          </p>
         ) : (
           <>
             <ul className="carrito-lista">
-              {cart.map((item) => (
-                <li key={item.id} className="carrito-item">
+              {cartItems.map((item) => (
+                <li key={`${item.id}-${item.sabor}`} className="carrito-item">
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={item.imagen}
+                    alt={item.nombre}
                     className="carrito-img"
                   />
                   <div className="item-info">
-                    <h6>{item.name}</h6>
-                    <p>${(item.price || 0).toLocaleString()}</p>
-                    {item.nota && (
-                      <p className="item-nota">
-                        <strong>Comentario:</strong> {item.nota}
-                      </p>
+                    <h6>
+                      {item.nombre}{" "}
+                      {item.sabor && (
+                        <span className="item-sabor">({item.sabor})</span>
+                      )}
+                    </h6>
+                    <p>${item.precio} c/u</p>
+                    <div className="item-acciones">
+                      <div className="item-cantidad">
+                        <button
+                          onClick={() =>
+                            updateCartItem(item.id, item.sabor, {
+                              cantidad: Math.max(1, item.cantidad - 1),
+                            })
+                          }
+                        >
+                          -
+                        </button>
+                        <span>{item.cantidad}</span>
+                        <button
+                          onClick={() =>
+                            updateCartItem(item.id, item.sabor, {
+                              cantidad: item.cantidad + 1,
+                            })
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        className="btn-editar"
+                        onClick={() => handleEditar(item)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="btn-eliminar"
+                        onClick={() =>
+                          removeFromCart(item.id, item.sabor)
+                        }
+                      >
+                        🗑
+                      </button>
+                    </div>
+                    {item.instrucciones && (
+                      <div className="item-nota">{item.instrucciones}</div>
                     )}
                   </div>
-
-                  <div className="item-cantidad">
-                    <button
-                      onClick={() =>
-                        item.cantidad === 1
-                          ? eliminar(item.id)
-                          : cambiarCantidad(item.id, -1)
-                      }
-                      className={item.cantidad === 1 ? "btn-trash" : ""}
-                    >
-                      {item.cantidad === 1 ? "🗑️" : "🗑️"}
-                    </button>
-                    <span>{item.cantidad}</span>
-                    <button onClick={() => cambiarCantidad(item.id, 1)}>
-                      +
-                    </button>
-                  </div>
-
-                  <button
-                    className="btn-editar"
-                    onClick={() => abrirModal(item)}
-                  >
-                    Editar
-                  </button>
                 </li>
               ))}
             </ul>
 
-            <button className="btn-vaciar" onClick={vaciarCarrito}>
-              Vaciar Carrito
-            </button>
-
             <div className="carrito-footer">
-              <h5>Total: ${total.toLocaleString()}</h5>
+              <h5>Total: ${total.toFixed(2)}</h5>
+              <button className="btn-vaciar" onClick={clearCart}>
+                Vaciar carrito
+              </button>
               <button
                 className="btn-finalizar"
-                disabled={cart.length === 0}
-                onClick={finalizarCompra} // 
+                onClick={() => alert("Compra realizada 🎉")}
               >
-                Finalizar pedido
+                Finalizar compra
               </button>
             </div>
           </>
         )}
       </div>
 
-      {/* === MODAL DE EDICIÓN === */}
+      {/* === MODAL EDITAR === */}
       {productoEditando && (
         <div
           className="modal-overlay"
@@ -172,7 +137,7 @@ export default function Carrito({ onClose }) {
             }
           }}
         >
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal">
             <button
               className="modal-cerrar"
               onClick={() => setProductoEditando(null)}
@@ -180,56 +145,65 @@ export default function Carrito({ onClose }) {
               ×
             </button>
 
-            <div className="modal-header">
-              <h5>{productoEditando.name}</h5>
-            </div>
-
             <div className="modal-content">
               <img
-                src={productoEditando.image}
-                alt={productoEditando.name}
+                src={productoEditando.imagen}
+                alt={productoEditando.nombre}
                 className="modal-img"
               />
 
               <div className="modal-info">
-                <p>{productoEditando.description}</p>
+                <h3>
+                  {productoEditando.nombre}{" "}
+                  {productoEditando.sabor && (
+                    <span className="modal-sabor">
+                      ({productoEditando.sabor})
+                    </span>
+                  )}
+                </h3>
 
-                <label>Instrucciones especiales</label>
+                <label>Instrucciones especiales:</label>
                 <textarea
-                  placeholder="Incluye una nota"
-                  value={notaTemp}
-                  onChange={(e) => setNotaTemp(e.target.value)}
+                  value={instrucciones}
+                  onChange={(e) => setInstrucciones(e.target.value)}
+                  placeholder="Ej: sin chocolate, extra crema..."
                 />
 
-                <div className="modal-controls">
+                <div className="modal-cantidad">
                   <button
-                    onClick={() =>
-                      setCantidadTemp(Math.max(1, cantidadTemp - 1))
-                    }
+                    onClick={() => setCantidad(Math.max(1, cantidad - 1))}
                   >
                     -
                   </button>
-                  <span>{cantidadTemp}</span>
-                  <button onClick={() => setCantidadTemp(cantidadTemp + 1)}>
-                    +
-                  </button>
-                </div>
-
-                <div className="modal-buttons">
-                  <button onClick={guardarEdicion} className="btn-guardar">
-                    Guardar
-                  </button>
-                  <button
-                    onClick={() => eliminarDesdeModal(productoEditando.id)}
-                    className="btn-eliminar-modal"
-                  >
-                    Eliminar
-                  </button>
+                  <span>{cantidad}</span>
+                  <button onClick={() => setCantidad(cantidad + 1)}>+</button>
                 </div>
 
                 <div className="modal-precio">
-                  ${(productoEditando.price * cantidadTemp).toLocaleString()}
+                  Total: ${(productoEditando.precio * cantidad).toFixed(2)}
                 </div>
+
+                <div className="modal-acciones">
+                  <button className="btn-guardar" onClick={handleGuardarCambios}>
+                    Guardar
+                  </button>
+                  <button
+                    className="btn-eliminar"
+                    onClick={() => {
+                      removeFromCart(
+                        productoEditando.id,
+                        productoEditando.sabor
+                      );
+                      setProductoEditando(null);
+                    }}
+                  >
+                    Eliminar producto
+                  </button>
+                </div>
+
+                {mensajeExito && (
+                  <div className="mensaje-exito">Cambios guardados </div>
+                )}
               </div>
             </div>
           </div>
@@ -237,6 +211,4 @@ export default function Carrito({ onClose }) {
       )}
     </div>
   );
-
-  return createPortal(contenido, document.body);
 }

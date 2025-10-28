@@ -142,3 +142,11 @@
     gap: 12px;
   }
 }
+.login-page .container {
+  display: flex;
+  justify-content: center; /* centra el contenido dentro del container */
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}

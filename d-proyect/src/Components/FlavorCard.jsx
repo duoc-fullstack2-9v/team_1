@@ -1,23 +1,35 @@
-export default function FlavorCard({ name, description, image, badge, oldPrice, price }) {
-  const formatPrice = (price) => `$${price?.toLocaleString("es-CL")}`;
+import { useCart } from "../Context/CartContext";
+
+export default function FlavorCard({ id, nombre, descripcion, imagen, precio }) {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      nombre,
+      descripcion,
+      imagen,
+      precio,
+    });
+  };
 
   return (
     <div className="flavor-card">
       <div className="flavor-img-container">
-        <img src={image || "/placeholder.svg"} alt={name} className="flavor-image" />
-        {badge && <span className="flavor-badge">{badge}</span>}
+        <img
+          src={imagen}
+          alt={nombre}
+          className="flavor-image"
+        />
       </div>
 
       <div className="flavor-content">
-        <h5 className="flavor-name">{name}</h5>
-        <p className="flavor-description">{description}</p>
-
-        <div className="flavor-prices">
-          {oldPrice && <span className="old-price">{formatPrice(oldPrice)}</span>}
-          {price && <span className="new-price">{formatPrice(price)}</span>}
-        </div>
-
-        <button className="add-to-cart">Agregar al carrito</button>
+        <h5 className="flavor-name">{nombre}</h5>
+        <p className="flavor-description">{descripcion}</p>
+        <span className="new-price">${precio}</span>
+        <button className="add-to-cart-bottom" onClick={handleAddToCart}>
+          +
+        </button>
       </div>
     </div>
   );
