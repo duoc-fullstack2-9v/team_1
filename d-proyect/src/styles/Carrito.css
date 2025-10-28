@@ -1,0 +1,390 @@
+
+.carrito-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.carrito {
+  background: #fff;
+  width: 380px;
+  max-width: 90%;
+  height: 100vh;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.2);
+  border-radius: 10px 0 0 10px;
+  animation: slideIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* HEADER Y BOTÓN CERRAR */
+.carrito h4 {
+  text-align: center;
+  margin: 15px 0 25px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.btn-cerrar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #555;
+  cursor: pointer;
+}
+
+/* LISTA DE PRODUCTOS */
+.carrito-lista {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+  margin: 0;
+}
+
+/* === ITEM DEL CARRITO === */
+.carrito-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: 12px 0;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.carrito-img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item-info h6 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-info p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* === Cantidad y acciones === */
+.item-acciones {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.item-cantidad {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 3px 6px;
+}
+
+.item-cantidad button {
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.item-cantidad button:hover { background-color: #f3f3f3; }
+
+.item-cantidad span {
+  margin: 0 6px;
+  font-weight: bold;
+  color: #333;
+  min-width: 15px;
+  text-align: center;
+}
+
+/* === Botones === */
+.btn-editar {
+  background-color: #f6f6f6;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px 10px;
+  transition: all 0.2s;
+}
+
+.btn-editar:hover { background-color: #e8e8e8; }
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  color: #d9534f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: color 0.2s;
+}
+
+.btn-eliminar:hover { color: #ff2c2c; }
+
+/* === FOOTER === */
+.carrito-footer {
+  padding-top: 20px;
+  margin-top: auto;
+  border-top: 1px solid #eee;
+  background: #fff;
+  position: sticky;
+  bottom: 0;
+}
+
+.carrito-footer h5 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.btn-finalizar {
+  width: 100%;
+  background: #ff5c5c;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.btn-vaciar {
+  width: 100%;
+  background: none;
+  color: #ff5c5c;
+  border: 1px solid #ff5c5c;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+/* === NOTAS === */
+.item-nota {
+  width: 100%;
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.4;
+  border-left: 3px solid #ffb6b6;
+}
+
+/* === MODAL EDITAR === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* ← corregido (antes 100vh) */
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background-color: #fff;
+  border-radius: 12px;
+  max-width: 850px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  animation: aparecer 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #444;
+}
+
+/* === Contenido del modal === */
+.modal-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 25px;
+  padding: 25px 35px 35px;
+}
+
+.modal-img {
+  width: 45%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.modal-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* === Campo de instrucciones === */
+.modal-info label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-info textarea {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  color: #333;
+  resize: vertical;
+}
+
+.modal-info textarea:focus {
+  outline: none;
+  background-color: #fff;
+  border-color: #b47b57;
+}
+
+/* === Controles === */
+.modal-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-cantidad button {
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  width: 35px;
+  height: 35px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-cantidad button:hover { background-color: #e4e4e4; }
+
+.modal-cantidad span {
+  width: 25px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* === Botones === */
+.modal-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-guardar {
+  background-color: #b47b57;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-guardar:hover { background-color: #9b6748; }
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  color: #c60000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-eliminar:hover { color: #ff2c2c; }
+
+/* === Precio === */
+.modal-precio {
+  margin-top: 10px;
+  text-align: right;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* === Animación de mensaje === */
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+  animation: fadeInOut 2.5s ease;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
