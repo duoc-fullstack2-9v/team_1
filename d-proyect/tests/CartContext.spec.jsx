@@ -1,41 +1,57 @@
 import { renderHook, act } from "@testing-library/react";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { CartProvider, useCart } from "../src/Context/CartContext.jsx";
 
 describe("CartContext", () => {
-  beforeEach(() => {
-    localStorage.clear();
+  it("inicializa el carrito vacío", () => {
+    const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
+    expect(result.current.cartItems).toEqual([]);
   });
 
-  it("inicia con un carrito vacío si no hay datos guardados", () => {
-    const { result } = renderHook(() => useCart(), {
-      wrapper: CartProvider,
-    });
-    expect(result.current.cart).toEqual([]);
+  it("agrega un producto al carrito", () => {
+    const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
+
+    act(() => result.current.addToCart({ id: 1, nombre: "Chocolate" }));
+
+    expect(result.current.cartItems).toHaveLength(1);
+    expect(result.current.cartItems[0].nombre).toBe("Chocolate");
+    expect(result.current.cartItems[0].cantidad).toBe(1);
   });
 
-  it("carga correctamente el carrito desde localStorage", () => {
-    const fakeCart = [{ id: 1, name: "Helado Vainilla" }];
-    localStorage.setItem("cart", JSON.stringify(fakeCart));
+  it("incrementa la cantidad si el producto ya existe", () => {
+    const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
 
-    const { result } = renderHook(() => useCart(), {
-      wrapper: CartProvider,
-    });
+    act(() => result.current.addToCart({ id: 1, nombre: "Chocolate" }));
+    act(() => result.current.addToCart({ id: 1, nombre: "Chocolate" }));
 
-    expect(result.current.cart).toEqual(fakeCart);
+    expect(result.current.cartItems).toHaveLength(1);
+    expect(result.current.cartItems[0].cantidad).toBe(2);
   });
 
-  it("actualiza el carrito y lo guarda en localStorage", () => {
-    const { result } = renderHook(() => useCart(), {
-      wrapper: CartProvider,
-    });
+  it("elimina un producto del carrito", () => {
+    const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
 
-    act(() => {
-      result.current.setCart([{ id: 2, name: "Helado Chocolate" }]);
-    });
+    act(() => result.current.addToCart({ id: 2, nombre: "Vainilla" }));
+    act(() => result.current.removeFromCart(2));
 
-    const stored = JSON.parse(localStorage.getItem("cart"));
-    expect(stored).toEqual([{ id: 2, name: "Helado Chocolate" }]);
-    expect(result.current.cart).toEqual([{ id: 2, name: "Helado Chocolate" }]);
+    expect(result.current.cartItems).toHaveLength(0);
+  });
+
+  it("actualiza un producto existente", () => {
+    const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
+
+    act(() => result.current.addToCart({ id: 3, nombre: "Fresa", cantidad: 1 }));
+    act(() => result.current.updateCartItem(3, { cantidad: 5 }));
+
+    expect(result.current.cartItems[0].cantidad).toBe(5);
+  });
+
+  it("vacía completamente el carrito", () => {
+    const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
+
+    act(() => result.current.addToCart({ id: 4, nombre: "Pistacho" }));
+    act(() => result.current.clearCart());
+
+    expect(result.current.cartItems).toEqual([]);
   });
 });

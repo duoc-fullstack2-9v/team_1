@@ -1,65 +1,32 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import ContactForm from "../src/Franquicia/ContactForm.jsx";
+import React, { useState } from "react";
 
+export default function ContactForm() {
+  const [form, setForm] = useState({ nombre: "", email: "", telefono: "", mensaje: "" });
+  const [enviado, setEnviado] = useState(false);
 
-describe("ContactForm Component", () => {
-it("renderiza correctamente todos los campos del formulario", () => {
-render(<ContactForm />);
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Datos enviados:", form);
+    setEnviado(true);
+    setForm({ nombre: "", email: "", telefono: "", mensaje: "" });
+  };
 
-// Verifica inputs principales
-expect(screen.getByPlaceholderText("Nombre completo")).toBeInTheDocument();
-expect(screen.getByPlaceholderText("Correo electrónico")).toBeInTheDocument();
-expect(screen.getByPlaceholderText("Teléfono")).toBeInTheDocument();
-expect(screen.getByPlaceholderText("Cuéntanos tu interés")).toBeInTheDocument();
-
-// Botón de envío
-expect(screen.getByRole("button", { name: /Enviar solicitud/i })).toBeInTheDocument();
-
-
-});
-
-it("permite escribir en los campos", () => {
-render(<ContactForm />);
-
-
-const nombreInput = screen.getByPlaceholderText("Nombre completo");
-const emailInput = screen.getByPlaceholderText("Correo electrónico");
-const telefonoInput = screen.getByPlaceholderText("Teléfono");
-const mensajeTextarea = screen.getByPlaceholderText("Cuéntanos tu interés");
-
-fireEvent.change(nombreInput, { target: { value: "Juan Pérez" } });
-fireEvent.change(emailInput, { target: { value: "juan@example.com" } });
-fireEvent.change(telefonoInput, { target: { value: "123456789" } });
-fireEvent.change(mensajeTextarea, { target: { value: "Estoy interesado" } });
-
-expect(nombreInput.value).toBe("Juan Pérez");
-expect(emailInput.value).toBe("juan@example.com");
-expect(telefonoInput.value).toBe("123456789");
-expect(mensajeTextarea.value).toBe("Estoy interesado");
-
-
-});
-
-it("muestra mensaje de éxito al enviar el formulario", () => {
-render(<ContactForm />);
-
-
-// Completar campos requeridos
-fireEvent.change(screen.getByPlaceholderText("Nombre completo"), {
-  target: { value: "Ana" },
-});
-fireEvent.change(screen.getByPlaceholderText("Correo electrónico"), {
-  target: { value: "ana@example.com" },
-});
-
-// Enviar formulario
-fireEvent.submit(screen.getByRole("button", { name: /Enviar solicitud/i }));
-
-// Verificar mensaje de éxito
-expect(screen.getByText("¡Mensaje enviado! Te contactaremos pronto.")).toBeInTheDocument();
-
-
-});
-});
+  return (
+    <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow p-6 space-y-4">
+      <input name="nombre" placeholder="Nombre completo" value={form.nombre} onChange={handleChange}
+        className="input" required />
+      <input name="email" type="email" placeholder="Correo electrónico" value={form.email} onChange={handleChange}
+        className="input" required />
+      <input name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange}
+        className="input" />
+      <textarea name="mensaje" rows="4" placeholder="Cuéntanos tu interés"
+        value={form.mensaje} onChange={handleChange} className="input" />
+      <button type="submit" className="bg-rose-600 text-white font-semibold px-4 py-2 rounded hover:bg-rose-700">
+        Enviar solicitud
+      </button>
+      {enviado && <p className="text-green-600">¡Mensaje enviado! Te contactaremos pronto.</p>}
+    </form>
+  );
+}

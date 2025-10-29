@@ -22,7 +22,7 @@ import { useCart } from "../src/Context/CartContext";
 
 describe("Componente Navbar", () => {
   it("se renderiza correctamente con el logo", () => {
-    useCart.mockReturnValue({ cart: [] });
+    useCart.mockReturnValue({ cartItems: [] });
 
     render(
       <MemoryRouter>
@@ -36,7 +36,7 @@ describe("Componente Navbar", () => {
   });
 
   it("muestra los enlaces principales del menú", () => {
-    useCart.mockReturnValue({ cart: [] });
+    useCart.mockReturnValue({ cartItems: [] });
 
     render(
       <MemoryRouter>
@@ -53,7 +53,7 @@ describe("Componente Navbar", () => {
   });
 
   it("renderiza los íconos de redes sociales y login", () => {
-    useCart.mockReturnValue({ cart: [] });
+    useCart.mockReturnValue({ cartItems: [] });
 
     render(
       <MemoryRouter>
@@ -67,7 +67,7 @@ describe("Componente Navbar", () => {
 
   it("muestra la cantidad de productos en el carrito", () => {
     useCart.mockReturnValue({
-      cart: [
+      cartItems: [
         { id: 1, cantidad: 2 },
         { id: 2, cantidad: 1 },
       ],
@@ -79,11 +79,16 @@ describe("Componente Navbar", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("3")).toBeInTheDocument();
+    // Buscamos el span dentro del botón del carrito
+    const btnCarrito = screen.getByTestId("btn-carrito");
+    const badge = btnCarrito.querySelector("span.badge");
+
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("3");
   });
 
   it("abre y cierra el carrito al hacer clic en el botón", () => {
-    useCart.mockReturnValue({ cart: [] });
+    useCart.mockReturnValue({ cartItems: [] });
 
     render(
       <MemoryRouter>
