@@ -116,7 +116,7 @@ const allProducts = [
 export default function Productos() {
   const [products] = useState(allProducts);
   const [searchTerm, setSearchTerm] = useState("");
-  const { cartItems, addToCart } = useCart(); // ✅ usamos el contexto correcto
+  const { cartItems, addToCart } = useCart(); // 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleAddToCart = (producto) => {
