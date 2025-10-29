@@ -1,0 +1,271 @@
+.carrito-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  z-index: 9999;
+}
+
+.carrito {
+  background: #fff;
+  width: 380px;
+  max-width: 90%;
+  height: 100vh;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.2);
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cerrar-carrito {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.carrito h2 {
+  text-align: center;
+  margin: 10px 0 25px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.carrito-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.carrito-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.carrito-info {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.carrito-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.carrito-info p {
+  margin: 4px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.instrucciones {
+  font-size: 0.85rem;
+  color: #444;
+  background: #f8f8f8;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.carrito-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.carrito-buttons button {
+  border: none;
+  background: #eee;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.carrito-buttons .eliminar {
+  background: #ffdddd;
+  color: #b00;
+}
+
+.carrito h3 {
+  text-align: right;
+  margin-top: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.acciones {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.acciones button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.acciones button:first-child {
+  background: #eee;
+  color: #333;
+}
+
+.acciones button:last-child {
+  background: #ff5c5c;
+  color: #fff;
+}
+
+/* === MODAL === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 750px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: aparecer 0.3s ease-out;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cerrar-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.modal-img {
+  width: 40%;
+  max-width: 280px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.modal-content h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.modal-content p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.cantidad-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.cantidad-control button {
+  background: #eee;
+  border: none;
+  width: 35px;
+  height: 35px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.cantidad-control span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-buttons .guardar {
+  background: #007bff;
+  color: #fff;
+}
+
+.modal-buttons .eliminar {
+  background: #ffdddd;
+  color: #b00;
+}
+
+.modal-price {
+  text-align: right;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}

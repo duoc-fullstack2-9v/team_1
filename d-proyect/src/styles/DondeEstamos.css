@@ -1,0 +1,30 @@
+.donde-estamos-page {
+  text-align: center;
+  padding: 40px 0;
+  background-color: #fff;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.text-dooc {
+  color: #ff7b00; /* color del logo o marca */
+}
+
+.map-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 450px;
+  border: none;
+}
