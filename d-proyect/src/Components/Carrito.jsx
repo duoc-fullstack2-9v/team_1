@@ -7,7 +7,6 @@ export default function Carrito({ onClose }) {
   const [productoEditando, setProductoEditando] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [instrucciones, setInstrucciones] = useState("");
-  const [mensajeExito, setMensajeExito] = useState(false);
 
   const handleEditar = (producto) => {
     setProductoEditando(producto);
@@ -15,110 +14,73 @@ export default function Carrito({ onClose }) {
     setInstrucciones(producto.instrucciones || "");
   };
 
-  const handleGuardarCambios = () => {
-    if (!productoEditando) return;
-    updateCartItem(productoEditando.id, productoEditando.sabor, {
+  const handleGuardar = () => {
+    updateCartItem(productoEditando.id, {
       cantidad,
       instrucciones,
     });
     setProductoEditando(null);
-    setMensajeExito(true);
-    setTimeout(() => setMensajeExito(false), 2000);
+  };
+
+  const handleEliminar = (id) => {
+    removeFromCart(id);
   };
 
   const total = cartItems.reduce(
-    (sum, item) => sum + item.precio * item.cantidad,
+    (acc, item) => acc + item.price * item.cantidad,
     0
   );
 
   return (
-    <div
-      className="carrito-overlay"
-      onClick={(e) => {
-        if (e.target.classList.contains("carrito-overlay")) onClose?.();
-      }}
-    >
+    <div className="carrito-overlay">
       <div className="carrito">
-        <button className="btn-cerrar" onClick={onClose}>
-          ×
+        <button className="cerrar-carrito" onClick={onClose}>
+          ✕
         </button>
-        <h4>Tu Carrito</h4>
+        <h2>Tu Carrito</h2>
 
         {cartItems.length === 0 ? (
-          <p style={{ textAlign: "center", marginTop: "2rem" }}>
-            Tu carrito está vacío 🍦
-          </p>
+          <p>Tu carrito está vacío.</p>
         ) : (
           <>
-            <ul className="carrito-lista">
-              {cartItems.map((item) => (
-                <li key={`${item.id}-${item.sabor}`} className="carrito-item">
-                  <img
-                    src={item.imagen}
-                    alt={item.nombre}
-                    className="carrito-img"
-                  />
-                  <div className="item-info">
-                    <h6>
-                      {item.nombre}{" "}
-                      {item.sabor && (
-                        <span className="item-sabor">({item.sabor})</span>
-                      )}
-                    </h6>
-                    <p>${item.precio} c/u</p>
-                    <div className="item-acciones">
-                      <div className="item-cantidad">
-                        <button
-                          onClick={() =>
-                            updateCartItem(item.id, item.sabor, {
-                              cantidad: Math.max(1, item.cantidad - 1),
-                            })
-                          }
-                        >
-                          -
-                        </button>
-                        <span>{item.cantidad}</span>
-                        <button
-                          onClick={() =>
-                            updateCartItem(item.id, item.sabor, {
-                              cantidad: item.cantidad + 1,
-                            })
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                      <button
-                        className="btn-editar"
-                        onClick={() => handleEditar(item)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className="btn-eliminar"
-                        onClick={() =>
-                          removeFromCart(item.id, item.sabor)
-                        }
-                      >
-                        🗑
-                      </button>
-                    </div>
-                    {item.instrucciones && (
-                      <div className="item-nota">{item.instrucciones}</div>
-                    )}
+            {cartItems.map((item) => (
+              <div key={item.id} className="carrito-item">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="carrito-img"
+                />
+                <div className="carrito-info">
+                  <h4>{item.name}</h4>
+                  <p>${item.price.toLocaleString()}</p>
+                  <p>Cantidad: {item.cantidad}</p>
+                  {item.instrucciones && (
+                    <p className="instrucciones">
+                      📝 {item.instrucciones}
+                    </p>
+                  )}
+                  <div className="carrito-buttons">
+                    <button onClick={() => handleEditar(item)}>Editar</button>
+                    <button
+                      onClick={() => handleEliminar(item.id)}
+                      className="eliminar"
+                    >
+                      Eliminar
+                    </button>
                   </div>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </div>
+            ))}
 
-            <div className="carrito-footer">
-              <h5>Total: ${total.toFixed(2)}</h5>
-              <button className="btn-vaciar" onClick={clearCart}>
-                Vaciar carrito
-              </button>
+            <h3>Total: ${total.toLocaleString()}</h3>
+            <div className="acciones">
+              <button onClick={clearCart}>Vaciar carrito</button>
               <button
-                className="btn-finalizar"
-                onClick={() => alert("Compra realizada 🎉")}
+                onClick={() => {
+                  alert("Compra finalizada 🎉");
+                  clearCart();
+                  onClose();
+                }}
               >
                 Finalizar compra
               </button>
@@ -127,84 +89,62 @@ export default function Carrito({ onClose }) {
         )}
       </div>
 
-      {/* === MODAL EDITAR === */}
       {productoEditando && (
-        <div
-          className="modal-overlay"
-          onClick={(e) => {
-            if (e.target.classList.contains("modal-overlay")) {
-              setProductoEditando(null);
-            }
-          }}
-        >
+        <div className="modal-overlay">
           <div className="modal">
             <button
-              className="modal-cerrar"
+              className="cerrar-modal"
               onClick={() => setProductoEditando(null)}
             >
-              ×
+              ✕
             </button>
-
             <div className="modal-content">
               <img
-                src={productoEditando.imagen}
-                alt={productoEditando.nombre}
+                src={productoEditando.image}
+                alt={productoEditando.name}
                 className="modal-img"
               />
+              <div>
+                <h3>{productoEditando.name}</h3>
+                <p>{productoEditando.description}</p>
 
-              <div className="modal-info">
-                <h3>
-                  {productoEditando.nombre}{" "}
-                  {productoEditando.sabor && (
-                    <span className="modal-sabor">
-                      ({productoEditando.sabor})
-                    </span>
-                  )}
-                </h3>
-
-                <label>Instrucciones especiales:</label>
-                <textarea
+                <label>Instrucciones especiales</label>
+                <input
+                  type="text"
                   value={instrucciones}
                   onChange={(e) => setInstrucciones(e.target.value)}
-                  placeholder="Ej: sin chocolate, extra crema..."
+                  placeholder="Ej: sin maní, extra dulce..."
                 />
 
-                <div className="modal-cantidad">
+                <div className="cantidad-control">
                   <button
-                    onClick={() => setCantidad(Math.max(1, cantidad - 1))}
+                    onClick={() =>
+                      setCantidad((prev) => Math.max(1, prev - 1))
+                    }
                   >
                     -
                   </button>
                   <span>{cantidad}</span>
-                  <button onClick={() => setCantidad(cantidad + 1)}>+</button>
+                  <button onClick={() => setCantidad((prev) => prev + 1)}>
+                    +
+                  </button>
                 </div>
 
-                <div className="modal-precio">
-                  Total: ${(productoEditando.precio * cantidad).toFixed(2)}
-                </div>
-
-                <div className="modal-acciones">
-                  <button className="btn-guardar" onClick={handleGuardarCambios}>
+                <div className="modal-buttons">
+                  <button onClick={handleGuardar} className="guardar">
                     Guardar
                   </button>
                   <button
-                    className="btn-eliminar"
-                    onClick={() => {
-                      removeFromCart(
-                        productoEditando.id,
-                        productoEditando.sabor
-                      );
-                      setProductoEditando(null);
-                    }}
+                    onClick={() => handleEliminar(productoEditando.id)}
+                    className="eliminar"
                   >
-                    Eliminar producto
+                    Eliminar
                   </button>
                 </div>
-
-                {mensajeExito && (
-                  <div className="mensaje-exito">Cambios guardados </div>
-                )}
               </div>
+              <p className="modal-price">
+                ${productoEditando.price.toLocaleString()}
+              </p>
             </div>
           </div>
         </div>
